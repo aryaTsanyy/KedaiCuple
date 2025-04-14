@@ -15,7 +15,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.aryatsanyy.KedaiUser"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -29,12 +30,14 @@
           "image": "./assets/splash-icon.png"
         }
       ],
-      "react-native-edge-to-edge"
+      "react-native-edge-to-edge",
+      "expo-build-properties"
     ],
     "extra": {
       "eas": {
         "projectId": "d2ceecb3-7be2-4752-917f-a86bb3894b19"
       }
-    }
+    },
+    "owner": "aryatsanyy"
   }
 }
