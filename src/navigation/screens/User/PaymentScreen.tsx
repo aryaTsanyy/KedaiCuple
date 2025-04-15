@@ -114,41 +114,46 @@ const PaymentScreen = () => {
       // Send order to your backend
       const response = await api.post("/orders/create", orderData, {
         headers: {
-          Authorization: `Bearer ${userToken}`, // Ganti `userToken` dengan token autentikasi pengguna
+          Authorization: `Bearer ${userToken}`,
         },
       });
 
-      // If successful, navigate to success screen
+      // If successful
       if (response.status === 201 || response.status === 200) {
         console.log("Order created successfully:", response.data);
 
-        // Clear cart on successful order
-        try {
-          console.log("Clearing cart...");
-          await api.delete("/cart", {
-            headers: {
-              Authorization: `Bearer ${userToken}`, // Pastikan token dikirim
-            },
-          });
-          console.log("Cart cleared successfully.");
-          setCart([]);
-        } catch (cartError) {
-          if (cartError instanceof Error) {
-            console.error("Error clearing cart:", cartError.message);
-          } else {
-            console.error("Unknown error clearing cart:", cartError);
+        // For cash payments, navigate directly to success screen
+        if (selectedPaymentMethod === "cash") {
+          // Clear cart on successful order
+          try {
+            await api.delete("/cart", {
+              headers: {
+                Authorization: `Bearer ${userToken}`,
+              },
+            });
+            setCart([]);
+          } catch (cartError) {
+            console.error("Error clearing cart:", cartError);
           }
-        }
 
-        // Navigate to success screen
-        try {
+          // Navigate to success screen
           navigation.navigate("OrderSuccessScreen", {
-            orderId: response.data._id,
-            orderDetails: response.data,
+            orderId: response.data.order._id,
+            orderDetails: response.data.order,
           });
-          console.log("Navigated to OrderSuccessScreen.");
-        } catch (navigationError) {
-          console.error("Error navigating to OrderSuccessScreen:", navigationError);
+        }
+        // For online payments (Midtrans), redirect to payment page
+        else {
+          // Check if payment information is available
+          if (response.data.payment && response.data.payment.redirectUrl) {
+            navigation.navigate("MidtransPaymentScreen", {
+              paymentUrl: response.data.payment.redirectUrl,
+              orderId: response.data.order._id,
+              orderDetails: response.data.order,
+            });
+          } else {
+            Alert.alert("Error", "Payment initialization failed. Please try again.");
+          }
         }
       } else {
         Alert.alert("Error", "Failed to place order. Please try again.");

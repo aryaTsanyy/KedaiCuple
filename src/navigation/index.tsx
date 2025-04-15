@@ -25,6 +25,9 @@ import OrderTrackerScreen from "./screens/User/OrderTrackerScreen";
 import OrderReceiptScreen from "./screens/User/OrderReceiptScreen";
 import MainTabs, { MainTabParamList } from "./Maintabs";
 import { CartItem } from "../../types";
+import MidtransPaymentScreen from "./screens/User/MidtransPaymentScreen";
+import AdminDashboard from "./screens/Admin/AdminDashboard";
+import AdminOrderDetail from "./screens/Admin/AdminOrderDetail";
 
 export type RootStackParamList = {
   Onboarding: undefined;
@@ -58,6 +61,13 @@ export type RootStackParamList = {
   OrderDetailsScreen: {
     orderId: string;
   };
+  MidtransPaymentScreen: {
+    paymentUrl: string;
+    orderId: string;
+    orderDetails: any;
+  };
+  AdminDashboard: undefined;
+  AdminOrderDetail: { orderId: string };
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -90,6 +100,9 @@ const AppNavigator = () => {
           <Stack.Screen name="OrderTrackerScreen" component={OrderTrackerScreen} />
           <Stack.Screen name="OrderReceiptScreen" component={OrderReceiptScreen} />
           <Stack.Screen name="MainTab" component={MainTabs} />
+          <Stack.Screen name="MidtransPaymentScreen" component={MidtransPaymentScreen} />
+          <Stack.Screen name="AdminDashboard" component={AdminDashboard} />
+          <Stack.Screen name="AdminOrderDetail" component={AdminOrderDetail} />
         </Stack.Navigator>
       </NavigationContainer>
     </UserProvider>

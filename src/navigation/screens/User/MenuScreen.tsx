@@ -10,6 +10,7 @@ import { Product, Category } from "../../../../types";
 import { RootStackParamList } from "../../index";
 import Svg, { Path } from "react-native-svg";
 import { useCart } from "../../context/cartContext";
+import FastImage from "react-native-fast-image";
 
 export default function MenuScreen() {
   const { cart } = useCart();
@@ -74,8 +75,9 @@ export default function MenuScreen() {
   );
 
   const renderProduct = ({ item }: { item: Product }) => (
-    <TouchableOpacity style={styles.productItem} onPress={() => navigation.navigate("ProductDetail", { product: { ...item, id: item._id, image: item.imageUrl } })}>
-      <Image source={{ uri: item.imageUrl }} style={styles.productImage} />
+    <TouchableOpacity style={styles.productItem} onPress={() => navigation.navigate("ProductDetail", { product: item })}>
+      <Image source={{ uri: item.imageUrl }} style={{ width: 100, height: 100 }} resizeMode="contain" />
+
       <View style={styles.productInfo}>
         <View style={styles.productHeader}>
           <Text style={styles.productName}>{item.name}</Text>
@@ -200,7 +202,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     backgroundColor: "#fff",
     borderRadius: 10,
-    overflow: "hidden",
+
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
@@ -208,9 +210,13 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   productImage: {
+    resizeMode: "contain",
     width: 100,
     height: 100,
     borderRadius: 10,
+    borderWidth: 2, // Tambahkan border untuk melihat apakah gambar ada
+    borderColor: "red",
+    zIndex: 999,
   },
   productInfo: {
     flex: 1,

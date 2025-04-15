@@ -9,7 +9,8 @@
     "newArchEnabled": true,
     "scheme": "kedaiuser",
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.aryatsanyy.KedaiUser"
     },
     "android": {
       "adaptiveIcon": {
